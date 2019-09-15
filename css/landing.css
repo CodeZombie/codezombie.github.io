@@ -1,0 +1,79 @@
+#landing {
+    box-sizing:border-box;
+    width:100%;
+    height:100%;
+}
+
+#landing #art_panel {
+    overflow: hidden;
+    background-color: #100C10;
+    float:left;
+    width:50%;
+    height:100%;
+    text-align: center;
+}
+
+#landing #art_panel:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em;
+}
+
+#landing #art_panel #art_box {
+    vertical-align: middle;
+    width: 50%;
+}
+
+#landing #nav_panel {
+    text-align: right;
+    box-sizing:border-box;
+    float:left;
+    width:50%;
+    height: 100%;
+    padding:3rem 4rem 3rem 3rem ;
+}
+
+#landing #nav_panel #title {
+    font-weight: 700;
+    font-size:5rem;
+    width:100%;
+    margin-bottom:2rem;
+}
+
+#landing #nav_panel .landing_button {
+    font-family: 'Roboto Mono', sans-serif;
+    font-size:2rem;
+    margin-bottom:1rem;
+    color: #100C10;
+    display: block;
+    text-decoration: none;
+}
+
+#landing #nav_panel .landing_button:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px){
+    #landing {
+        display:flex;
+        flex-direction:column;
+    }
+    #landing #art_panel, #landing #nav_panel {
+        width:100%;
+    }
+
+    #landing #nav_panel {
+        height:auto;
+        background-color: #100C10;
+        color: #ffffff;
+    }
+    #landing #nav_panel .landing_button {
+        color: #ddd;
+
+    }
+    #landing #art_panel {
+        flex:1;
+    }
+}

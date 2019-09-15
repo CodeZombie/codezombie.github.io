@@ -1,0 +1,36 @@
+#header {
+    height:6rem;
+    width:100%;
+    border-bottom-color: #707070;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    line-height: 6rem;
+    font-size:2rem;
+    font-weight: 100;
+    margin-bottom: 6rem;
+}
+
+#header #domain_path {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#header:hover {
+    cursor: pointer;
+}
+
+#header:hover #domain_path #base {
+    text-decoration: underline;
+}
+#header:hover img {
+    top: 0;
+    opacity:.5;
+}
+
+.list_item {
+    margin-bottom:6rem;
+}
+.list_item .title {
+    font-size: 3rem;
+}

@@ -1,67 +1,38 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1">
-		<link rel="stylesheet" href="styles/hella.css">
-		<link rel="stylesheet" href="styles/style.css">
-		<link rel="stylesheet" href="styles/hella-style.css">
-		<script type="text/javascript" src="js/activate_comments.js"></script>
-		<title>badnoise</title>
-		<script type="text/javascript">
-		</script>
-	</head>
-	<body>
-		<a href="index.html">
-      <div id="header">
-	       <div id="logo"></div>
-			</div>
-		</a>
-    <div class="grid">
-      <div class="row" id="navbar">
-        <div class="column six non-responsive no-margin">
-					<a href="#">blog</a>
-				</div>
-				<div class="column six non-responsive">
-					<a href="#">contact</a>
-				</div>
-      </div>
-			<div class="content">
-				<div class="row ">
-					<div class="column">
-							<h1>EEEEEEEEEEEEEEEEEEE</h1>
-							<h6>Posted december 5th, 2012</h6>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-							<pre><code>fuck(): you!</code></pre>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-							<img src="res/cyb.jpg"></img>
-							<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="column">
-						<a href="javascript:showComments()" class="button" id="commentbutton">Activate comments</a>
-						<div id="comments">
-							<div id="disqus_thread"></div>
-							<script>
-								function showComments() {
-									loadDisqusMalware();
-									var disqus_config = function () {
-										this.page.url = "badnoise.net";
-										this.page.identifier = "shit"; };
-									(function() {
-										var d = document, s = d.createElement('script');
-										s.src = 'https://badnoise-net.disqus.com/embed.js';
-										s.setAttribute('data-timestamp', +new Date());
-										(d.head || d.body).appendChild(s);})();
-								}
-							</script>
-							<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-						</div>
-					</div>
-				</div>
-      </div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>badnoise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/landing.css">
+    <script src="js/hellfire.js"></script>
+</head>
+<body onload="createFire()">
+    <div id="landing">
+
+        <div id="nav_panel">
+            <div id="title">jeremy clark</div>
+            <a href="bn/#/projects" class="landing_button">projects</a>
+            <a href="bn/#/posts" class="landing_button">posts</a>
+            <a href="bn/#/contact" class="landing_button">contact</a>
+        </div>
+        <div id="art_panel">
+            <canvas id="art_box" width="300" height="300"></canvas>
+        </div>
     </div>
-		<div id="bottombar"></div>
-	</body>
+</body>
+<script type="text/javascript">
+    function createFire() {
+        var fire = new Hellfire(document.getElementById("art_box"), 4);
+
+        var update = () => {
+            fire.draw();
+            setTimeout(update, 12);
+        }
+        update();
+    }
+</script>
 </html>
