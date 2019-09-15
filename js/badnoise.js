@@ -30,7 +30,7 @@ var badnoise = new Vue({
     router: new VueRouter({ 
         routes: [   
             {path: '/', name: "index", beforeEnter(to, from, next) {
-                window.location.href = "../index.html"; 
+                window.location.href = "../"; 
             }},
             {path: '/posts', name: "posts"},
             {path: '/posts/tag/:tag', name: "post-search"},
