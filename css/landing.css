@@ -60,10 +60,13 @@
         display:flex;
         flex-direction:column;
     }
+    #landing #art_panel #art_box {
+        width:100%;
+        height: 100%;
+    }
     #landing #art_panel, #landing #nav_panel {
         width:100%;
     }
-
     #landing #nav_panel {
         height:auto;
         background-color: #100C10;

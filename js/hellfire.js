@@ -45,19 +45,18 @@ BufferedMap.prototype.swap = function () {
     }
 }
 
-function Hellfire(canvas, scale) {
+function Hellfire(canvas, size) {
 
     this.canvas = canvas;
     this.canvasContext = canvas.getContext('2d');
 
-    this.scale = Math.floor(scale);
     this.canvas.height = this.canvas.scrollHeight;
     this.canvas.width = this.canvas.scrollWidth;
-    this.canvasContext.scale(this.scale, this.scale);
+
+    this.canvasContext.scale(this.canvas.width / size, this.canvas.height / size);
     this.canvasContext.imageSmoothingEnabled = false;
 
-    this.bufferedMap = new BufferedMap( Math.floor(this.canvas.width / scale), 
-                                        Math.floor(this.canvas.height / scale));
+    this.bufferedMap = new BufferedMap(size, size);
                                         
     this.pixelBuffer = this.canvasContext.createImageData(this.bufferedMap.width, this.bufferedMap.height);
 }
@@ -105,7 +104,8 @@ Hellfire.prototype.draw = function () {
             this.process(x, y);
             this.drawDot(x, y, this.colorFromNumber(this.bufferedMap.getValue(x, y)));
         }
-    }
+    }    
+
     this.canvasContext.putImageData(this.pixelBuffer, 0, 0);
     this.canvasContext.drawImage(this.canvas, 0, 0);
 }
