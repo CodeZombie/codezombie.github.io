@@ -67,5 +67,5 @@ NoiseBox.prototype.draw = function() {
     }
 
     this.imageData.data.set(this.buffer8);
-    this.canvasContext.putImageData(this.imageData, 0, 0);
+    this.canvasContext.putImageData(this.imageData, -1, -1); //(-1, -1) reduces border noise :)
 }
