@@ -29,6 +29,7 @@ NoiseBox.prototype.updateCanvas = function() {
     var buffer = new ArrayBuffer(this.imageData.data.length);
     this.buffer8 = new Uint8ClampedArray(buffer);
     this.data = new Uint32Array(buffer);
+    this.canvasContext.imageSmoothingEnabled = false;
     this.draw(); //prevents flicker.
 }
 
