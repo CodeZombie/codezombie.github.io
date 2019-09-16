@@ -29,10 +29,10 @@
     var fire;
     function createFire() {
         fire = new NoiseBox(document.getElementById("art_box"), 4);
-
+        
         var upd = function() {
             fire.draw();
-            setTimeout(upd, 1);
+            window.requestAnimationFrame(upd);
         }
         upd();
     }

@@ -42,14 +42,14 @@ NoiseBox.prototype.draw = function() {
 
     for(var y = 0; y < this.canvasHeight; y += this.pixelScale) {
         for(var x = 0; x < this.canvasWidth; x += this.pixelScale) {
-
-            var value = 255;
-            if(noise.simplex2(x + this.time, y) > .2) {
-                value = Math.floor(Math.abs(noise.simplex3( 0.01 * x, 0.01 * y, this.time)) * 255)
+            
+            var value = 255; //white
+            if(noise.simplex2(x + this.time, y) > .1) { //if 2d simplex has us at anything but a very dark tile
+                value = Math.abs(noise.simplex3( 0.01 * x, 0.01 * y, this.time)) * 255
                 if(value < 60) {
                     value = 255
                 }else{
-                    value = 0;
+                    value = 16;
                 }
             }
 
