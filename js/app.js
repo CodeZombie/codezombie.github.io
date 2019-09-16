@@ -19,6 +19,7 @@ var badnoise = new Vue({
             </div>
             <div class="column seven">
                 <div v-on:click="postClick(id)" class="title">{{ title }}</div>
+                <div> {{date}} </div>
                 <span class="tag" v-for="(tag, index) in tags">
                     <span v-on:click="tagClick(tag)">{{ tag }}</span><span v-if="index < tags.length-1">,&nbsp</span>
                 </span>
@@ -40,9 +41,9 @@ var badnoise = new Vue({
     }),
     data: {
         posts: [
-            {id: 0, title: "paper", tags: ["web", "css", "html", "minimal"], date: 29942392, image: "../res/paper_demo.png", link: "how-to-install.json"},
+            {id: 0, title: "paper", tags: ["web", "css", "html", "minimal"], date: "April, 2019", image: "../res/paper_demo.png", link: "how-to-install.json"},
             {id: 1, title: "how to steal fonts from adobe", tags: ["web", "vue.js", "html", "css", "javascript", "AJAX", "API"], image: "../res/typerip_demo.png", date: 29942392, link: "vue-router.json"},
-            {id: 2, title: "midiseqs", tags: ["arduino", "hardware", "c++", "MIDI"], image: "../res/shit.jpg", date: 29942392, link: "esp8266-windows.json"},
+            {id: 2, title: "midiseqs", tags: ["arduino", "hardware", "c++", "MIDI"], image: "../res/shit.jpg", date: "May 2016", link: "esp8266-windows.json"},
         ],
     },
     computed: {

@@ -27,7 +27,7 @@
         <div class="grid">
             <div class="row">
                 <template v-if="atRoute('posts')">
-                    <list-item class="list_item" v-for="post in posts" v-on:tag-click="onTagClick" v-on:post-click="onPostClick" v-bind:key="post.id" v-bind:id="post.id" v-bind:tags="post.tags" v-bind:image="post.image" v-bind:title="post.title" ref="root"></list-item>
+                    <list-item class="list_item" v-for="post in posts" v-on:tag-click="onTagClick" v-on:post-click="onPostClick" v-bind:key="post.id" v-bind:date="post.date" v-bind:id="post.id" v-bind:tags="post.tags" v-bind:image="post.image" v-bind:title="post.title" ref="root"></list-item>
                 </template>
             </div>
         </div>

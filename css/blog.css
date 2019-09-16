@@ -14,6 +14,7 @@
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
+    max-width:80%;
 }
 
 #header:hover {
@@ -21,7 +22,7 @@
 }
 
 #header:hover #domain_path #base {
-    text-decoration: underline;
+    opacity: .5;
 }
 #header:hover img {
     top: 0;
@@ -29,7 +30,7 @@
 }
 
 .list_item {
-    margin-bottom:6rem;
+    padding-bottom:6rem;
 }
 .list_item .title {
     font-size: 3rem;
