@@ -8,9 +8,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Roboto+Slab&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/landing.css">
-    <script src="js/hellfire.js"></script>
+    <script src="js/noise.js"></script>
+    <script src="js/perlin.js"></script>
 </head>
-<body onload="createFire()">
+<body onload="createFire()" onresize="onResize()">
     <div id="landing">
 
         <div id="nav_panel">
@@ -20,19 +21,24 @@
             <a href="bn/#/contact" class="landing_button">contact</a>
         </div>
         <div id="art_panel">
-            <canvas id="art_box" width="300" height="300"></canvas>
+            <canvas id="art_box"></canvas>
         </div>
     </div>
 </body>
 <script type="text/javascript">
+    var fire;
     function createFire() {
-        var fire = new Hellfire(document.getElementById("art_box"), 96);
+        fire = new NoiseBox(document.getElementById("art_box"), 4);
 
-        var update = () => {
+        var upd = function() {
             fire.draw();
-            setTimeout(update, 32);
+            setTimeout(upd, 1);
         }
-        update();
+        upd();
+    }
+
+    function onResize() {
+        fire.updateCanvas();
     }
 </script>
 </html>
