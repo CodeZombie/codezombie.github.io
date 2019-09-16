@@ -10,20 +10,12 @@
     float:left;
     width:50%;
     height:100%;
-    text-align: center;
-}
-
-#landing #art_panel:before {
-    content: '';
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    margin-right: -0.25em;
 }
 
 #landing #art_panel #art_box {
     vertical-align: middle;
-    width: 50%;
+    width: 100%;
+    height:100%;
 }
 
 #landing #nav_panel {
@@ -59,10 +51,6 @@
     #landing {
         display:flex;
         flex-direction:column;
-    }
-    #landing #art_panel #art_box {
-        width:100%;
-        height: 100%;
     }
     #landing #art_panel, #landing #nav_panel {
         width:100%;
