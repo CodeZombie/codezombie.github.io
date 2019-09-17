@@ -58,8 +58,10 @@ var badnoise = new Vue({
     data: {
         posts: [
             {id: 0, title: "faded", tags: ["music", "javascript", "go", "css", "ajax", "api"], date: "2017", image: "../res/faded_demo.png", link: "http://badnoise.net/faded"},
-            {id: 1, title: "typerip", tags: ["web", "vue.js", "html", "css", "javascript", "AJAX", "API"], image: "../res/typerip_demo.png", date: "2016", link: ""},
-            {id: 2, title: "taskcrawler", tags: ["android", "sqlite", "java", "MVC"], image: "../res/taskcrawler_demo.png", date: "2018", link: ""},
+            {id: 1, title: "typerip", tags: ["web", "vue.js", "html", "css", "javascript", "AJAX", "APIs"], image: "../res/typerip_demo.png", date: "2016", link: "http://badnoise.net/TypeRip/"},
+            {id: 2, title: "taskcrawler", tags: ["android", "sqlite", "java", "MVC"], image: "../res/taskcrawler_demo.png", date: "2018", link: "https://github.com/CodeZombie/TaskCrawler"},
+            {id: 3, title: "hella", tags: ["css", "layout"], image: "../res/hella_demo.png", date: "2018", link: "http://badnoise.net/hella/"},
+
         ],
     },
     computed: {
