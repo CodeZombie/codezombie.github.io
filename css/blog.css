@@ -35,3 +35,27 @@
 .list_item .title {
     font-size: 3rem;
 }
+
+.hovered {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+img.hovered {
+    opacity: .75;
+}
+
+.list_item .tags * {
+    font-family: 'Roboto Mono', sans-serif;
+    font-size: 1.25rem;
+}
+.list_item .tag:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    
+}
+
+.list_item .date {
+    font-size:1.25rem;
+    color:#999;
+}
