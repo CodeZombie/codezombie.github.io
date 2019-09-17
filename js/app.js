@@ -14,7 +14,6 @@ var badnoise = new Vue({
                 this.$emit('tag-click', tag);
             },
             titleClick: function(id, link) {
-                console.log("????")
                 this.$emit('title-click', {id: id, link: link});
             },
             onMouseOver: function() {
@@ -56,13 +55,13 @@ var badnoise = new Vue({
         ],
     }),
     data: {
-        posts: [
+        projects: [
             {id: 0, title: "faded", tags: ["music", "javascript", "go", "css", "ajax", "api"], date: "2017", image: "../res/faded_demo.png", link: "http://badnoise.net/faded"},
             {id: 1, title: "typerip", tags: ["web", "vue.js", "html", "css", "javascript", "AJAX", "APIs"], image: "../res/typerip_demo.png", date: "2016", link: "http://badnoise.net/TypeRip/"},
             {id: 2, title: "taskcrawler", tags: ["android", "sqlite", "java", "MVC"], image: "../res/taskcrawler_demo.png", date: "2018", link: "https://github.com/CodeZombie/TaskCrawler"},
             {id: 3, title: "hella", tags: ["css", "layout"], image: "../res/hella_demo.png", date: "2018", link: "http://badnoise.net/hella/"},
-
         ],
+
     },
     computed: {
         //activeRoute returns renderable data about the current path, broken up into:
@@ -74,7 +73,7 @@ var badnoise = new Vue({
             switch(this.$route.name) {
                 case 'post':
                     route.base += "/posts";
-                    route.page = "/" + this.posts[this.$route.params.id].title;
+                    //route.page = "/" + this.posts[this.$route.params.id].title;
                     route.previousPath = "/posts";
                     break;
                 case 'posts':
@@ -89,6 +88,11 @@ var badnoise = new Vue({
                 case 'projects':
                     route.page = "/projects";
                     route.previousPath = "/";
+                    break;
+                case 'project-search':
+                    route.base += "/projects"
+                    route.page = "/tag/" + this.$route.params.tag;
+                    route.previousPath = "/projects";
                     break;
                 default:
                     route.page = "/???";
@@ -114,8 +118,11 @@ var badnoise = new Vue({
         onPostClick: function(projectObject) {
             this.navigate('/posts/' + projectObject.id);
         },
-        onTagClick: function(tag) {
+        onPostTagClick: function(tag) {
             this.navigate('/posts/tag/' + tag);
+        },
+        onProjectTagClick: function(tag) {
+            this.navigate('/projects/tag/' + tag);
         },
         onProjectClick: function(projectObject) {
             window.location.href = projectObject.link;
