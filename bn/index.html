@@ -29,6 +29,29 @@
                 <template v-if="atRoute('projects')">
                     <list-item class="list_item" v-for="project in projects" v-on:tag-click="onProjectTagClick" v-on:title-click="onProjectClick" v-bind:key="project.id" v-bind:link="project.link" v-bind:date="project.date" v-bind:id="project.id" v-bind:tags="project.tags" v-bind:image="project.image" v-bind:title="project.title"></list-item>
                 </template>
+                <template v-if="atRoute('contact')">
+                    <h3>Jeremy Clark</h3>
+                    <table>
+                        <tr>
+                            <td>location</td>
+                            <td class="data">Burlington, ON</td>
+                        </tr>
+                        <tr>
+                            <td>e-mail</td>
+                            <td class="data">jeremyclark@live.ca</td>
+                        </tr>
+                        <tr>
+                            <td>github</td>
+                            <td class="data"><a href="https://github.com/CodeZombie">github.com/CodeZombie</a></td>
+                        </tr>
+                        <tr>
+                            <td>linkedin</td>
+                            <td class="data"><a href="https://www.linkedin.com/in/jeremy-clark-b6729611b/">linkedin.com/in/jeremy-clark-b6729611b/</a></td>
+                        </tr>
+                    </table>
+
+                    
+                </template>
             </div>
         </div>
     </div>

@@ -59,3 +59,13 @@ img.hovered {
     font-size:1.25rem;
     color:#999;
 }
+
+table td{
+    font-size:2rem;
+    padding-right:4rem;
+    padding-bottom:1rem;
+}
+
+table .data, table a {
+    font-size:1.75rem;
+}

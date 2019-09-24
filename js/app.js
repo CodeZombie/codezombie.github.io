@@ -51,6 +51,8 @@ var badnoise = new Vue({
             {path: '/projects', name: "projects"},
             {path: '/projects/tag/:tag', name: "project-search"},
 
+            {path: '/contact', name: 'contact'},
+
             {path: '*', name: "404"}
         ],
     }),
@@ -93,6 +95,10 @@ var badnoise = new Vue({
                     route.base += "/projects"
                     route.page = "/tag/" + this.$route.params.tag;
                     route.previousPath = "/projects";
+                    break;
+                case 'contact':
+                    route.page += "/contact";
+                    route.previousPath = '/';
                     break;
                 default:
                     route.page = "/???";
