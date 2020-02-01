@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>badnoise/</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Roboto+Slab&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/main.css">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="../css/hella.css">
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div id="vue_app">
@@ -18,7 +19,7 @@
             <div class="grid">
                 <div class="row">
                     <div class="column">
-                        <span id="domain_path"><span id="base">{{activeRoute.base}}</span><span>{{ activeRoute.page }}</span></span>
+                        <span id="domain_path"><span id="base">{{this.$route.meta.base}}</span><span>{{ getRoutePage() }}</span></span>
                         <img src="../res/back_arrow.png" style="float:right; width:auto; height:2rem; margin-top:2rem;">
                     </div>
                 </div>
@@ -27,14 +28,25 @@
         <div class="grid">
             <div class="row">
                 <template v-if="atRoute('projects')">
-                    <list-item class="list_item" v-for="project in projects" v-on:tag-click="onProjectTagClick" v-on:title-click="onProjectClick" v-bind:key="project.id" v-bind:link="project.link" v-bind:date="project.date" v-bind:id="project.id" v-bind:tags="project.tags" v-bind:image="project.image" v-bind:title="project.title"></list-item>
+                    <project-item class="list_item" v-for="project in projects" v-on:tag-click="onProjectTagClick" v-on:title-click="onProjectClick" v-bind:key="project.id" v-bind:link="project.link" v-bind:date="project.date" v-bind:id="project.id" v-bind:tags="project.tags" v-bind:image="project.image" v-bind:title="project.title"></project-item>
+                </template>
+                <template v-if="atRoute('posts')">
+                    <post-item class="list_item" v-for="post in posts" v-on:tag-click="onPostTagClick" v-on:title-click="onPostClick" v-bind:key="post.id" v-bind:content-path="post.contentPath" v-bind:date="post.date" v-bind:id="post.id" v-bind:tags="post.tags" v-bind:title="post.title"></post-item>
+                </template>
+                <template v-if="atRoute('post')">
+                    <div class="post">
+                        <h2 class="title">{{activePost.title}}</h2>
+                        <div class="date"> {{getDateString(activePost.date)}} </div>
+                        <p v-html="activePost.content"></p>
+                    </div>
+                    
                 </template>
                 <template v-if="atRoute('contact')">
                     <h3>Jeremy Clark</h3>
                     <table>
                         <tr>
                             <td>location</td>
-                            <td class="data">Burlington, ON</td>
+                            <td class="data">Toronto, ON</td>
                         </tr>
                         <tr>
                             <td>e-mail</td>
@@ -49,8 +61,10 @@
                             <td class="data"><a href="https://www.linkedin.com/in/jeremy-clark-b6729611b/">linkedin.com/in/jeremy-clark-b6729611b/</a></td>
                         </tr>
                     </table>
-
-                    
+                </template>
+                <template v-if="atRoute('404')">
+                    <h2>404: Not Found.</h2>
+                    <p>The resource you're looking for isn't here.</p>
                 </template>
             </div>
         </div>

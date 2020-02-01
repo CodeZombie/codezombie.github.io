@@ -69,3 +69,12 @@ table td{
 table .data, table a {
     font-size:1.75rem;
 }
+
+.post .title {
+    text-align: center;;
+}
+.post .date {
+    text-align: center;
+    color:#999;
+    margin-bottom: 2rem;;
+}
