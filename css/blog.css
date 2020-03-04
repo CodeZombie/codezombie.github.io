@@ -78,3 +78,6 @@ table .data, table a {
     color:#999;
     margin-bottom: 2rem;;
 }
+.post p {
+    line-height: 2;
+}

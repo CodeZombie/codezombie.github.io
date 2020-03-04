@@ -237,6 +237,10 @@ var badnoise = new Vue({
                 this.activePost.date = this.posts[postId].date;
                 axios.get("/posts/" + this.posts[postId].contentPath).then( (result) => {
                     this.activePost.content = result.data
+                    setTimeout(() => {
+                        //hljs.initHighlighting();
+                        
+                    }, 1);
                 }).catch((error) => {
                     this.activePost.content = "Failed to fetch post content. " + error;
                 })
@@ -258,5 +262,16 @@ var badnoise = new Vue({
     //called when the browser tries to load a page from a fresh request.
     mounted: function() {
         this.onRouteChange(this.$route);
+    },
+    updated: function() {
+        this.$nextTick(function() {
+            //IF THIS ROUTE == POST
+            if(this.atRoute('post')){
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightBlock(block);
+                });
+            }
+
+       })
     }
 });
