@@ -1,8 +1,5 @@
 <p>
-    Oh no! As the newly hired lead software developer for the American Democratic National Convention, 
-    you've been tasked with writing the voting machine software that will be rolled out cross-country for all future primary elections. You poor bastard.
-    After the incredible <a href="https://en.wikipedia.org/wiki/Shadow_Inc.#IowaReporterApp">2020 Iowa Caucus software failure</a>, 
-    the top brass at the DNC, wishing to avoid another international embarassment, are <strike>holding a gun to your head</strike> <i>counting on you</i> to get it done.
+    Oh no! As the newly hired lead software developer for the American Democratic National Convention, you've been tasked with writing the voting machine software that will be rolled out cross-country for all future primary elections. You poor bastard. After the incredible <a href="https://en.wikipedia.org/wiki/Shadow_Inc.#IowaReporterApp">2020 Iowa Caucus software failure</a>, the top brass at the DNC, wishing to avoid another international embarassment, are <strike>holding a gun to your head</strike> <i>counting on you</i> to get it done. Unfortunately for you, part of the project requirements state that "APPLICATION MUST NOT REQUIRE A SERVER TO OPERATE", which means you can't use a traditional server-client architecture to put this together. You're going to have to write this whole thing client-side with just HTML and Javascript. You're going to have to make a Single Page Application.
 </p>
 <p>
     Your trusty UI designer has sketched up a mock for you to refer to, so you don't need to exhaust any brain cells worrying about colors, margins, legibility, or any of that other useless aesthetic nonsense. Here's what she came up with:
@@ -14,12 +11,11 @@
 <p>
     Looks like it's a two-page application. The first page is just a simple drop-down select box and a button. When you click the button, it registers a vote for the selected candidate and shows you the current vote totals. A button appears on this screen allowing you to return and cast another vote. Seems easy enough, you naively say to yourself, opening up a new project folder...
 </p>
-<h1>
+<h2>
     Part 1: The HTML
-</h1>
+</h2>
 <p>
-    The first and most "obvious" thing to do, you think, is to create the visual interface and simply build your javascript codebase around it. 
-    For an extremely simple project, this may suffice, however, nothing is ever simple. Nothing ever works out the way you think it will. Nothing is easy.
+    The first and most "obvious" thing to do, you think, is to create the visual interface and simply build your javascript codebase around it. For an extremely simple project, this may suffice, however, nothing is ever simple. Nothing ever works out the way you think it will. Nothing is easy.
 </p>
 <p>
     After a few minutes of searching for html boilerplates and consulting w3Schools, you end up with the following, reasonably valid, HyperText Markup:
@@ -39,7 +35,12 @@
 
     &lt;div id="resultsSection"&gt;
         &lt;div id="resultsContainer"&gt;
-            Results Go Here :)
+        &lt;ul&gt;
+            &lt;li&gt;Bernie Sanders - &lt;span id="bernieSandersVoteCount"&gt;0&lt;/span&gt; - &lt;span id="bernieSandersVotePercentage"&gt;0%&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;Joe Biden - &lt;span id="joeBidenVoteCount"&gt;0&lt;/span&gt; - &lt;span id="joeBidenVotePercentage"&gt;0%&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;Elizabeth Warren - &lt;span id="elizabethWarrenVoteCount"&gt;0&lt;/span&gt; - &lt;span id="elizabethWarrenVotePercentage"&gt;0%&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;Mike Bloomberg - &lt;span id="mikeBloombergVoteCount"&gt;0&lt;/span&gt; - &lt;span id="mikeBloombergVotePercentage"&gt;0%&lt;/span&gt;&lt;/li&gt;
+        &lt;/ul&gt;
         &lt;/div&gt;
         &lt;button type="button" onclick=""&gt;Vote Again&lt;/button&gt;
     &lt;/div&gt;
@@ -48,9 +49,7 @@
 </code>
 </pre>
 <p>
-    Smugly, you reflect on your work. It, like the mock, is split into two sections, <span class="code">castVoteSection</span> and <span class="code">resultsSection</span>. 
-    You, being at least somewhat familiar with Javascript, are aware that you can inject functions into your html when certain events occur. 
-    In this case, you've left a place for three events:
+    Smugly, you reflect on your work. It, like the mock, is split into two sections, <span class="code">castVoteSection</span> and <span class="code">resultsSection</span>. You, being at least somewhat familiar with Javascript, are aware that you can inject functions into your html when certain events occur. In this case, you've left a place for three events:
 </p>
 <p>
     <code>body onload</code>, <code>vote-button onclick</code>, and <code>vote-again-button onclick</code>.
@@ -60,27 +59,79 @@
 </p>
 <img src="../res/blog/voting_app_just_html_1.png"/>
 <p>
-    Hmm. Well, this is wrong. You don't want the 'resultsContainer' content to display at the same time as the 'castVoteSection' stuff. It was to be expected though. 
-    After all, all you've done is place elements into two separate divs. You haven't told the document which one it should or shouldn't render, so it renders both.</p>
+    Hmm. Well, this certainly <i>is</i> wrong. You don't want the <code>resultsContainer</code> content to display at the same time as the <code>castVoteSection</code> stuff. It was to be expected though. After all, all you've done is place elements into two separate divs. You haven't told the document which one it should or shouldn't render, so it renders both.</p>
 <p>
     To fix this, you're going to need to employ the Power of The Script.
 </p>
-<h1>Part 2: The Javascript</h1>
-<p>What you really need here is some way to hide either of your section divs programmatically, and Javascript has your answers:</p>
+<h2>Part 2: The Javascript</h2>
+<p>
+    What you really need here is some way to hide either of your section divs programmatically, and Javascript has your answers:
+</p>
 <pre><code class="language-javascript">function showCastVoteSection() {
     document.getElementById("castVoteSection").style.display = "block";
     document.getElementById("resultsSection").style.display = "none";
-}</code></pre>
-<p>As you finish pasting this block of code verbatim out of an online article, you catch yourself wondering: <i>What does it all mean?</i></p>
+}
+
+function showResultsSection() {
+    document.getElementById("castVoteSection").style.display = "none";
+    document.getElementById("resultsSection").style.display = "block";
+}
+</code></pre>
 <p>
-    The first section of code <code>document.getElementById()</code> is a function that simply searches your Document Object Model for an element with the specified Id. Easy enough. 
-    The next part <code>.style.display = "block"</code> is referencing the <code>style</code> of the selected element (the same thing that CSS would be doing (if we had any)), and then changing the <code>display</code> property.
+    As you finish pasting this block of code verbatim out of an online article, you catch yourself wondering: <i>What does it all mean?</i>
 </p>
-<p>An elements <code>display</code> property is useful because most elements are in HTML are visually rendered on the user's screen, but setting this value to "none" tells the browser to not render it at all. Perfect for hiding things.</p>
-<p>So, what this function does is sets the <code>castVoteSection</code> element to its regular <code>display</code> value of <code>block</code>, which causes it to render. It then sets the <code>resultsSection</code> element's <code>display</code> value to <code>none</code>, preventing it from rendering.</p>
 <p>
-    The only thing left to do is actually get our page to call this function. Recall how you placed that <code>body onload</code> event unfilled:
+    The code above creates two functions (named chunks of code that can be called upon to run from somewhere else), that each cause two elements in the document to display or hide. In the first line of the first function, a search is performed to find an element with the id <code>castVoteSection</code>. Then, with this found element, it set's its <code>style.display</code> property to <code>block</code>, and the other section (the one we want to hide), to <code>none</code>. 
+</p>
+<p><code>style.display</code> in this case describes <i>how</i> the browser will position the element. There are several different types of <code>display</code> modes an element could have, but at this point we're only concerned with <code>block</code> (renders the element) and <code>hide</code>(doesn't render the element)</p>
+<p>
+    As you've probably put together by now, these two functions toggle the visibility of each section by 'showing' and 'hiding' each section.
+</p>
+<p>
+    The only thing left to do is actually get our page to call one of these functions. Recall how you placed that <code>body onload</code> event unfilled:
 </p>
 <pre><code class="language-html">&lt;body onload=""&gt;</code></pre>
-<p>Putting some Javascript in those quotes will cause it to execute, as the name implies, the body loads:</p>
+<p>
+    Putting some Javascript in those quotes will cause it to execute, as the name implies, when the body fully loads:
+</p>
 <pre><code class="language-html">&lt;body onload="showCastVoteSection()"&gt;</code></pre>
+<p>
+    Refreshing the page now gets us back on the right track:
+</p>
+<img src="../res/blog/voting_app_toggle_section.png"/>
+<p>
+    Now you start to worry about what happens when the user clicks "Submit". As it is right now, nothing. 
+</p>
+<p>
+    You're well on your way with the interface part of this program, you think it's about time to start concerning yourself with the actual data, the functionality, the <i>business logic</i>.
+</p>
+<p>
+    You know that the only persistant data needed for this program is the number of votes placed for each candidate, so just a simple list of numbers. This can be done using a Javascript <code>array</code>. You put the following at the top of your <code>&lt;script&gt;</code>:
+</p>
+<pre><code class="language-javascript">var candidateVotes = [0, 0, 0, 0];</code></pre>
+<p>
+    Going through this line-by-line, you see that this single line is split into <i>two</i> portions: a <u>declaration</u>, and a <u>definition</u>:
+</p>
+<p>
+    <code>var candidateVotes</code> is <u>declaring</u> that a new variable exists, and it is named <code>candidateVotes</code>.
+</p>
+<p>
+    The next portion <code>= [0, 0, 0, 0];</code> is <u>defining</u> the new variable <code>candidateVotes</code> to be <code>[0, 0, 0, 0]</code>, which is an ordered list of four numbers. These four numbers are going to be the vote counts for each candidate. In this application, we will assume that the first value in this list will be Sanders' votes, the next will be Biden's, then Warren's and finally Bloomberg's. You think to yourself
+</p>
+<p>
+    <i>"This does not seem like the most effective way of organizing data. It works, but is not very readable or scalable."</i>
+</p>
+<p>
+    How insightful you are. You shake off the feeling of uneasiness, and continue.
+</p>
+<p>
+    You now need to trigger some functionality when the user clicks "submit". This is done with a new function. You whip up the following:
+</p>
+<pre><code class="language-javascript">function castVote() {
+    let selectedCandidateId = document.getElementById('candidateSelection').value;
+    candidateVotes[selectedCandidateId] += 1;
+    showResultsSection();
+}</code></pre>
+<p>
+    
+</p>

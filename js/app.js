@@ -176,7 +176,7 @@ var badnoise = new Vue({
         posts: [
             {id: 0, title: "Getting Started with Photogrammetry", tags: ["3D", "Graphics", "Art", "Photogrammetry"], date: 1580523551, contentPath: "photogrammetry.htm"},
             {id: 1, title: "Why Free Software Matters ", tags: ["Ethics", "Licenses", "Software", "Libre"], date: 1580501551, contentPath: "free_software.htm"},
-			{id: 2, title: "Single Page Applications in vanilla Javascript - Part 1", tags: ["Javascript", "MVC", "Web Development", "Programming"], date: 1580501551, contentPath: "mvc-spa.htm"},
+			{id: 2, title: "Single Page Applications - Part 1: The Naive Approach", tags: ["Javascript", "MVC", "Web Development", "Programming"], date: 1583527948, contentPath: "mvc-spa.htm"},
         ],
         activePost: {
             id: -1,
