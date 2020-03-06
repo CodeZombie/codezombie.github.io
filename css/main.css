@@ -38,12 +38,18 @@ code.hljs{
     padding:16px;
     border-radius: 4px;
 }
-
+code {
+    padding:4px;
+    border-color: #eee;
+    border-width: 1px;
+    border-style: solid;
+}
 code, code * {
     font-family: 'Roboto Mono', monospace;
     font-size: 1.2rem;
     line-height: 1.5;
 }
+
 .hljs-keyword {
     font-weight: normal;
 }

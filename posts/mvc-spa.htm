@@ -53,7 +53,7 @@
     In this case, you've left a place for three events:
 </p>
 <p>
-    <u>Body onload</u>, <u>Vote Button onclick</u>, and <u>Vote Again Button onclick</u>.
+    <code>body onload</code>, <code>vote-button onclick</code>, and <code>vote-again-button onclick</code>.
 </p>
 <p>
     However, when you render this, something is wrong:
@@ -74,10 +74,10 @@
 <p>As you finish pasting this block of code verbatim out of an online article, you catch yourself wondering: <i>What does it all mean?</i></p>
 <p>
     The first section of code <code>document.getElementById()</code> is a function that simply searches your Document Object Model for an element with the specified Id. Easy enough. 
-    The next part <code>.style.display = "block"</code> is referencing the <code>'style'</code> of the selected element (the same thing that CSS would be doing (if we had any)), and then changing the <code>'display'</code> property.
+    The next part <code>.style.display = "block"</code> is referencing the <code>style</code> of the selected element (the same thing that CSS would be doing (if we had any)), and then changing the <code>display</code> property.
 </p>
-<p>An elements 'display' property is useful because most elements are in HTML are visually rendered on the user's screen, but setting this value to "none" tells the browser to not render it at all. Perfect for hiding things.</p>
-<p>So, what this function does is sets the <code>'castVoteSection'</code> element to its regular <code>display</code> value of <code>'block'</code>, which causes it to render. It then sets the <code>'resultsSection'</code> element's <code>display</code> value to <code>'none'</code>, preventing it from rendering.</p>
+<p>An elements <code>display</code> property is useful because most elements are in HTML are visually rendered on the user's screen, but setting this value to "none" tells the browser to not render it at all. Perfect for hiding things.</p>
+<p>So, what this function does is sets the <code>castVoteSection</code> element to its regular <code>display</code> value of <code>block</code>, which causes it to render. It then sets the <code>resultsSection</code> element's <code>display</code> value to <code>none</code>, preventing it from rendering.</p>
 <p>
     The only thing left to do is actually get our page to call this function. Recall how you placed that <code>body onload</code> event unfilled:
 </p>
