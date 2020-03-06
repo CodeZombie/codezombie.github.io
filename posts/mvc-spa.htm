@@ -1,0 +1,86 @@
+<p>
+    Oh no! As the newly hired lead software developer for the American Democratic National Convention, 
+    you've been tasked with writing the voting machine software that will be rolled out cross-country for all future primary elections. You poor bastard.
+    After the incredible <a href="https://en.wikipedia.org/wiki/Shadow_Inc.#IowaReporterApp">2020 Iowa Caucus software failure</a>, 
+    the top brass at the DNC, wishing to avoid another international embarassment, are <strike>holding a gun to your head</strike> <i>counting on you</i> to get it done.
+</p>
+<p>
+    Your trusty UI designer has sketched up a mock for you to refer to, so you don't need to exhaust any brain cells worrying about colors, margins, legibility, or any of that other useless aesthetic nonsense. Here's what she came up with:
+</p>
+<img src="../res/blog/voting_app_mock_1.png"/>
+<p>
+    Looks like she didn't use too many brain cells on this one either. No worries, design wasn't part of your contract, so you're clear to move ahead with the project.
+</p>
+<p>
+    Looks like it's a two-page application. The first page is just a simple drop-down select box and a button. When you click the button, it registers a vote for the selected candidate and shows you the current vote totals. A button appears on this screen allowing you to return and cast another vote. Seems easy enough, you naively say to yourself, opening up a new project folder...
+</p>
+<h1>
+    Part 1: The HTML
+</h1>
+<p>
+    The first and most "obvious" thing to do, you think, is to create the visual interface and simply build your javascript codebase around it. 
+    For an extremely simple project, this may suffice, however, nothing is ever simple. Nothing ever works out the way you think it will. Nothing is easy.
+</p>
+<p>
+    After a few minutes of searching for html boilerplates and consulting w3Schools, you end up with the following, reasonably valid, HyperText Markup:
+</p>
+
+<pre><code class="language-html">&lt;body onload=""&gt;
+
+    &lt;div id="castVoteSection"&gt;
+        &lt;select id="candidateSelection"&gt;
+            &lt;option value="0"&gt;Bernie Sanders&lt;/option&gt;
+            &lt;option value="1"&gt;Joe Biden&lt;/option&gt;
+            &lt;option value="2"&gt;Elizabeth Warren&lt;/option&gt;
+            &lt;option value="3"&gt;Mike Bloomberg&lt;/option&gt;
+        &lt;/select&gt;
+        &lt;button type="button" onclick=""&gt;Vote&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div id="resultsSection"&gt;
+        &lt;div id="resultsContainer"&gt;
+            Results Go Here :)
+        &lt;/div&gt;
+        &lt;button type="button" onclick=""&gt;Vote Again&lt;/button&gt;
+    &lt;/div&gt;
+
+&lt;/body&gt;
+</code>
+</pre>
+<p>
+    Smugly, you reflect on your work. It, like the mock, is split into two sections, <span class="code">castVoteSection</span> and <span class="code">resultsSection</span>. 
+    You, being at least somewhat familiar with Javascript, are aware that you can inject functions into your html when certain events occur. 
+    In this case, you've left a place for three events:
+</p>
+<p>
+    <u>Body onload</u>, <u>Vote Button onclick</u>, and <u>Vote Again Button onclick</u>.
+</p>
+<p>
+    However, when you render this, something is wrong:
+</p>
+<img src="../res/blog/voting_app_just_html_1.png"/>
+<p>
+    Hmm. Well, this is wrong. You don't want the 'resultsContainer' content to display at the same time as the 'castVoteSection' stuff. It was to be expected though. 
+    After all, all you've done is place elements into two separate divs. You haven't told the document which one it should or shouldn't render, so it renders both.</p>
+<p>
+    To fix this, you're going to need to employ the Power of The Script.
+</p>
+<h1>Part 2: The Javascript</h1>
+<p>What you really need here is some way to hide either of your section divs programmatically, and Javascript has your answers:</p>
+<pre><code class="language-javascript">function showCastVoteSection() {
+    document.getElementById("castVoteSection").style.display = "block";
+    document.getElementById("resultsSection").style.display = "none";
+}</code></pre>
+<p>As you finish pasting this block of code verbatim out of an online article, you catch yourself wondering: <i>What does it all mean?</i></p>
+<p>
+    The first section of code <code>document.getElementById()</code> is a function that simply searches your Document Object Model for an element with the specified Id. Easy enough. 
+    The next part <code>.style.display = "block"</code> is referencing the <code>'style'</code> of the selected element (the same thing that CSS would be doing (if we had any)), and then changing the <code>'display'</code> property.
+</p>
+<p>An elements 'display' property is useful because most elements are in HTML are visually rendered on the user's screen, but setting this value to "none" tells the browser to not render it at all. Perfect for hiding things.</p>
+<p>So, what this function does is sets the <code>'castVoteSection'</code> element to its regular <code>display</code> value of <code>'block'</code>, which causes it to render. It then sets the <code>'resultsSection'</code> element's <code>display</code> value to <code>'none'</code>, preventing it from rendering.</p>
+<p>
+    The only thing left to do is actually get our page to call this function. Recall how you placed that <code>body onload</code> event unfilled:
+</p>
+<pre><code class="language-html">&lt;body onload=""&gt;</code></pre>
+<p>Putting some Javascript in those quotes will cause it to execute, as the name implies, the body loads:</p>
+<pre><code class="language-html">&lt;body onload="showCastVoteSection()"&gt;</code></pre>
