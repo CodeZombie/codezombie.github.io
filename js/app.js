@@ -176,7 +176,8 @@ var badnoise = new Vue({
         posts: [
             {id: 0, title: "Getting Started with Photogrammetry", tags: ["3D", "Graphics", "Art", "Photogrammetry"], date: 1580523551, contentPath: "photogrammetry.htm"},
             {id: 1, title: "Why Free Software Matters ", tags: ["Ethics", "Licenses", "Software", "Libre"], date: 1580501551, contentPath: "free_software.htm"},
-			{id: 2, title: "Single Page Applications - Part 1: The Naive Approach", tags: ["Javascript", "MVC", "Web Development", "Programming"], date: 1583527948, contentPath: "mvc-spa.htm"},
+            {id: 2, title: "Single Page Applications - Part 1: The Naive Approach", tags: ["Javascript", "MVC", "Web Development", "Programming"], date: 1583527948, contentPath: "mvc-spa.htm"},
+            {id: 3, title: "Setting up the Wemos NodeMCU ESP8266 Development Board with the Arduino IDE", tags: ["Microcontrollers", "ESP8266", "Arduino", "C"], date: 1584409875, contentPath: "wemos_nodemcu_setup.htm"},
         ],
         activePost: {
             id: -1,
