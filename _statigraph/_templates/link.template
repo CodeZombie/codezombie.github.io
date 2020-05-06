@@ -1,0 +1,4 @@
+<li>
+    <a href="{{link}}">{{title}}</a>
+    <time>{{date}}</time>
+</li>

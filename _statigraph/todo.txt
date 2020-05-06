@@ -1,0 +1,12 @@
+ensure all fonts are included on each page.
+
+code blocks should not escape their bounds
+
+pre.code blocks should not have a baked in border. that should be included
+by paper if you need a border. 
+
+inline code should have a lighter background to make it look less like shit.
+just do what I did on the old badnoise.
+
+we're going to have to do syntax highlighting in statigraph too.
+Use CHROMA for this.

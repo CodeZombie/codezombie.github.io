@@ -1,0 +1,63 @@
+
+<div class="row">
+    <div class="column six">
+        <h2>Prerequisite</h2>
+        <p>
+            First, you're going to need to acquire the Arduino IDE. In my experience, version >1.9.0 of the IDE works best. As of right now, this version is in Beta, and can be downloaded from: <a href="https://www.arduino.cc/en/Main/Software">https://www.arduino.cc/en/Main/Software</a>.
+        </p>
+    </div>
+    <div class="column six">
+        <img class="paper-image" src="../../res/blog/nodemcu_closeup.png">
+    </div>
+</div>
+    <h2>Setup</h2>
+    <p>
+        <ol>
+            <li>Open the IDE and go to <code>File -> Preferences</code></li>
+            <li>Under <code>Additional Board Managers</code>, enter the following: <code>https://dl.espressif.com/dl/package_esp32_index.json, http://arduino.esp8266.com/stable/package_esp8266com_index.json</code></li>
+            <li>Press OK</li>
+            <li>Go to <code>Tools -> Board -> Boards Manager</code> and type in <code>ESP8266</code>. A single board should appear. Install it.</li>
+            <li>Once it's finished, go to <code>Tools -> Board</code> and select <code>NodeMCU v1.0 (ESP12-E Module)</code></li>
+            <li>Now select the correct Port. This will be different on every machine.</li>
+        </ol>
+    </p>
+<h2>Test Sketch</h2>
+<p>
+    To test your setup, run this quick little sketch:
+</p>
+<p>
+<div class="row">
+    <div class="column">
+        <div class="paper-sheet raised">
+    <sg_codeblock language="c++">unsigned long lastTickMillis = 0;
+int tickState = 0;
+
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    unsigned long currentMillis = millis();
+    
+    if(currentMillis - lastTickMillis >= 1000){
+        if(tickState == 0){
+            tickState = 1;
+            Serial.print("TICK\n");
+        }else{
+            tickState = 0;
+            Serial.print("TOCK\n");
+        }
+        lastTickMillis = currentMillis;
+    }
+}</sg_codeblock>
+        </div>
+    </div>
+</div>
+</p>
+<p>
+    Upload this sketch to the NodeMCU, then open up the Serial Monitor with <code>Tools -> Serial Monitor</code>. Once it finishes uploading, you should see the output of the program.
+</p>
+<img src="../../res/blog/esp8266_console_output.png">
+<p>
+    That's about it! That should get you started.
+</p>

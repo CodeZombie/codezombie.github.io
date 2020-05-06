@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>badnoise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Varela+Round&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
+    <script src="js/noise.js"></script>
+    <script src="js/perlin.js"></script>
+</head>
+<body onload="createFire()" onresize="windowResize()">
+    <div id="landing">
+        <div id="nav_panel">
+            <h1 id="title">jeremy clark</h1>
+            <a href="projects" class="landing_button" title="Go to projects page">projects</a>
+            <a href="posts" class="landing_button" title="Go to blog">posts</a>
+            <a href="contact" class="landing_button" title="Go to contact information page">contact</a>
+        </div>
+        <div id="art_panel">
+            <canvas id="art_box"></canvas>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var fire;
+    function createFire() {
+        fire = new NoiseBox(document.getElementById("art_box"), 4);
+        
+        var upd = function() {
+            fire.draw();
+            window.requestAnimationFrame(upd);
+        }
+        upd();
+    }
+
+    function windowResize() {
+        fire.updateCanvas();
+    }
+</script>
+</html>

@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>badnoise</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@100;400;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Varela+Round&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/landing.css">
     <script src="js/noise.js"></script>
     <script src="js/perlin.js"></script>
 </head>
-<body onload="createFire()" onresize="onResize()">
+<body onload="createFire()" onresize="windowResize()">
     <div id="landing">
-
         <div id="nav_panel">
-            <div id="title">jeremy clark</div>
-            <a href="bn/#/projects" class="landing_button">projects</a>
-            <a href="bn/#/posts" class="landing_button">posts</a>
-            <a href="bn/#/contact" class="landing_button">contact</a>
+            <h1 id="title">jeremy clark</h1>
+            <a href="projects" class="landing_button" title="Go to projects page">projects</a>
+            <a href="posts" class="landing_button" title="Go to blog">posts</a>
+            <a href="contact" class="landing_button" title="Go to contact information page">contact</a>
         </div>
         <div id="art_panel">
             <canvas id="art_box"></canvas>
@@ -37,7 +35,7 @@
         upd();
     }
 
-    function onResize() {
+    function windowResize() {
         fire.updateCanvas();
     }
 </script>
