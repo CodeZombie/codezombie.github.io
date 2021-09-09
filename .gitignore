@@ -1,3 +1,6 @@
+#the _output folder
+_output/*
+
 #static server
 caddy.exe
 
