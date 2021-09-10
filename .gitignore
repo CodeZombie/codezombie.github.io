@@ -1,8 +1,8 @@
 #the _output folder
 _output/*
 
-#static server
-caddy.exe
+#executables.
+*.exe
 
 # Windows image file caches
 Thumbs.db

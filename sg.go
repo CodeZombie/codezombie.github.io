@@ -12,20 +12,19 @@ import (
 	"github.com/alecthomas/chroma/formatters/html"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/quick"
-
 )
 
-//////////////////////////////
 //todo:
 //	add more comments.
-//	stress test with 100 edge-case entries
-//	ensure that webserver mode works properly.
+//	stress test with edge-case entries
 
-const DEBUG_MODE = true //true if testing the site locally through your browser, false if running on webserver.
-const MAX_URL_LENGTH = 32
-const POSTS_PER_LIST = 5
-const BLOG_SUBDIRECTORY = "posts"
-//var WEBSERV_ROOT = "file:///C:/Users/cazum/Documents/GitHub/Statigraph/_output/" //absolute directory to the output directory
+const MAX_URL_LENGTH = 32							//The maximum character length of directories within a URL. If a post title is too long, it wil be truncated.
+const POSTS_PER_LIST = 5							//The maximum number of posts that will appear per-page in the paginated blog list.
+const INPUT_POST_DIRECTORY = "_posts" 				//The folder containing the .post files which will be used to generate the blog.
+const INPUT_STATIC_CONTENT_DIRECTORY = "_static" 	//The directory containing the static content the website requires.
+const INPUT_TEMPLATE_DIRECTORY = "_templates" 		//The directory containing the .template content used to piece the website together.
+const OUTPUT_DIRECTORY = "_output" 					//The directory the generated website will be placed in.
+const BLOG_SUBDIRECTORY = "posts"					//The subdirectory within the website folder structure containing the blog.
 
 type Post struct {
 	title    string
@@ -38,6 +37,7 @@ type Post struct {
 }
 
 func checkError(error_ error) {
+	/* Prints an error if the error is not nil */
 	if error_ != nil {
 		fmt.Printf("Error: %s", error_.Error())
 		os.Exit(-1)
@@ -45,6 +45,7 @@ func checkError(error_ error) {
 }
 
 func intInSlice(haystack_ []int, needle_ int) bool {
+	/* searches for a specific int in a slice of ints. Returns true if it is found, false if not found. */
 	for _, h := range haystack_ {
 		if h == needle_ {
 			return true
@@ -58,12 +59,12 @@ func getPosts(folder_ string) ([]Post, error) {
 
 	rgx := regexp.MustCompile("[^a-zA-Z-0-9]")
 
-	files, err := ioutil.ReadDir(folder_) //get list of every file in _posts directory
+	files, err := ioutil.ReadDir(folder_) //get list of every file in INPUT_POST_DIRECTORY directory
 	checkError(err)
 
-	for _, f := range files { //for each file in the _posts/ directory...
+	for _, f := range files { //for each file in the INPUT_POST_DIRECTORY/ directory...
 		if f.Name()[len(f.Name())-5:] == ".post" { //if the file extension is a .post...
-			content, err := readFile("_posts/" + f.Name()) //load the content of the file
+			content, err := readFile(INPUT_POST_DIRECTORY + "/" + f.Name()) //load the content of the file
 			checkError(err)
 
 			for {
@@ -149,7 +150,7 @@ func getPosts(folder_ string) ([]Post, error) {
 }
 
 func savePosts(posts_ []Post) error {
-	postTemplate, err := readFile("_templates/post.template")
+	postTemplate, err := readFile(INPUT_TEMPLATE_DIRECTORY + "/post.template")
 	if err != nil {
 		return err
 	}
@@ -159,7 +160,7 @@ func savePosts(posts_ []Post) error {
 		postData = strings.Replace(postData, "{{title}}", p.title, -1)
 		postData = strings.Replace(postData, "{{date}}", p.date, -1)
 		postData = strings.Replace(postData, "{{content}}", p.content, -1)
-		err = createFile("_output/" + p.path + "/", "index.html", postData)
+		err = createFile(OUTPUT_DIRECTORY + "/" + p.path + "/", "index.html", postData)
 		if err != nil {
 			return err
 		}
@@ -168,10 +169,10 @@ func savePosts(posts_ []Post) error {
 }
 
 func saveList(postList_ [][]Post) error {
-	listTemplate, err := readFile("_templates/list.template")
+	listTemplate, err := readFile(INPUT_TEMPLATE_DIRECTORY + "/list.template")
 	checkError(err)
 
-	linkTemplate, err := readFile("_templates/link.template")
+	linkTemplate, err := readFile(INPUT_TEMPLATE_DIRECTORY + "/link.template")
 	checkError(err)
 
 	for i, page := range postList_ { //for each list
@@ -192,7 +193,7 @@ func saveList(postList_ [][]Post) error {
 			fname = "index"
 		}
 
-		err = createFile("_output/" + BLOG_SUBDIRECTORY + "/", fname + ".html", listpageData) //and write.
+		err = createFile(OUTPUT_DIRECTORY + "/" + BLOG_SUBDIRECTORY + "/", fname + ".html", listpageData) //and write.
 		checkError(err)
 	}
 	return nil
@@ -220,15 +221,15 @@ func createLists(posts_ []Post) error {
 
 func main() {
 	//load every post file into a data structure
-	posts, err := getPosts("_posts/")
+	posts, err := getPosts(INPUT_POST_DIRECTORY + "/")
 	checkError(err)
 
-	//delete everything from the _output directory
-	err = os.RemoveAll("_output/")
+	//delete everything from the OUTPUT_DIRECTORY directory
+	err = os.RemoveAll(OUTPUT_DIRECTORY + "/")
 	checkError(err)
 
 	//copy all static files to the output folder
-	err = CopyDir("_static/", "_output/")
+	err = CopyDir(INPUT_STATIC_CONTENT_DIRECTORY + "/", OUTPUT_DIRECTORY + "/")
 	checkError(err)
 
 	//create a file for every post
