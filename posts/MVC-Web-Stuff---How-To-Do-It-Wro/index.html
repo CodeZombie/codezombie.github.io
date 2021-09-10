@@ -49,7 +49,7 @@
 <div class="row">
     <div class="column">
         <div class="paper-sheet raised">
-            <pre class="chroma">
+            <pre tabindex="0" class="chroma">
 <span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
 
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;castVoteSection&#34;</span><span class="p">&gt;</span>
@@ -101,7 +101,7 @@
     <div class="column">
 
         <div class="paper-sheet raised">
-<pre class="chroma"><span class="kd">function</span> <span class="nx">showCastVoteSection</span><span class="p">()</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><span class="kd">function</span> <span class="nx">showCastVoteSection</span><span class="p">()</span> <span class="p">{</span>
     <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;castVoteSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;block&#34;</span><span class="p">;</span>
     <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;resultsSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
 <span class="p">}</span>
@@ -109,8 +109,7 @@
 <span class="kd">function</span> <span class="nx">showResultsSection</span><span class="p">()</span> <span class="p">{</span>
     <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;castVoteSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
     <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;resultsSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;block&#34;</span><span class="p">;</span>
-<span class="p">}</span>
-</pre>
+<span class="p">}</span></pre>
 </div>
 </div>
 </div>
@@ -167,12 +166,11 @@
 <div class="row">
     <div class="column">
         <div class="paper-sheet raised">
-<pre class="chroma"><span class="kd">function</span> <span class="nx">castVote</span><span class="p">()</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><span class="kd">function</span> <span class="nx">castVote</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">selectedCandidateId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;candidateSelection&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
     <span class="nx">candidateVotes</span><span class="p">[</span><span class="nx">selectedCandidateId</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
     <span class="nx">showResultsSection</span><span class="p">();</span>
-<span class="p">}</span>
-</pre>
+<span class="p">}</span></pre>
 </div>
 </div>
 </div>
