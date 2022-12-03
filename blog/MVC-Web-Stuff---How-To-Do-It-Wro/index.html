@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>badnoise - MVC Web Stuff - How To Do It Wrong</title>
+    <link rel="icon" type="image/x-icon" href="../../res/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Varela+Round&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/hella.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/paper.css">
+</head>
+<body>
+    <div class="grid">
+        <nav class="row">
+            <div class="column">
+                <a href="../">badnoise/posts/</a>
+            </div>
+        </nav>
+        <article>
+            <header>
+                <h1>MVC Web Stuff - How To Do It Wrong</h1>
+                <time>Jan 15, 2020</time>
+            </header>
+            <html><head></head><body onload=""><p>
+    Oh no! As the newly hired lead software developer for the American Democratic National Convention, you&#39;ve been tasked with writing the voting machine software that will be rolled out cross-country for all future primary elections. You poor bastard. After the incredible <a href="https://en.wikipedia.org/wiki/Shadow_Inc.#IowaReporterApp">2020 Iowa Caucus software failure</a>, the top brass at the DNC, wishing to avoid another international embarassment, are <strike>holding a gun to your head</strike> <i>counting on you</i> to get it done. Unfortunately for you, part of the project requirements state that &#34;APPLICATION MUST NOT REQUIRE A SERVER TO OPERATE&#34;, which means you can&#39;t use a traditional server-client architecture to put this together. You&#39;re going to have to write this whole thing client-side with just HTML and Javascript. You&#39;re going to have to make a Single Page Application.
+</p>
+<p>
+    Your trusty UI designer has sketched up a mock for you to refer to, so you don&#39;t need to exhaust any brain cells worrying about colors, margins, legibility, or any of that other useless aesthetic nonsense. Here&#39;s what she came up with:
+</p>
+<img src="../../res/blog/voting_app_mock_1.png"/>
+<p>
+    Looks like she didn&#39;t use too many brain cells on this one either. No worries, design wasn&#39;t part of your contract, so you&#39;re clear to move ahead with the project.
+</p>
+<p>
+    Looks like it&#39;s a two-page application. The first page is just a simple drop-down select box and a button. When you click the button, it registers a vote for the selected candidate and shows you the current vote totals. A button appears on this screen allowing you to return and cast another vote. Seems easy enough, you naively say to yourself, opening up a new project folder...
+</p>
+<h2>
+    Part 1: The HTML
+</h2>
+<p>
+    The first and most &#34;obvious&#34; thing to do, you think, is to create the visual interface and simply build your javascript codebase around it. For an extremely simple project, this may suffice, however, nothing is ever simple. Nothing ever works out the way you think it will. Nothing is easy.
+</p>
+<p>
+    After a few minutes of searching for html boilerplates and consulting w3Schools, you end up with the following, reasonably valid, HyperText Markup:
+</p>
+<div class="row">
+    <div class="column">
+        <div class="paper-sheet raised">
+            <sg_codeblock language="html"><pre tabindex="0" class="chroma">
+
+
+    
+        
+            Bernie Sanders
+            Joe Biden
+            Elizabeth Warren
+            Mike Bloomberg
+        
+        Vote
+    
+
+    
+        
+        
+            Bernie Sanders - 0 - 0%
+            Joe Biden - 0 - 0%
+            Elizabeth Warren - 0 - 0%
+            Mike Bloomberg - 0 - 0%
+        
+        
+        Vote Again
+    
+    
+</pre></sg_codeblock>
+        </div>
+    </div>
+</div>
+<p>
+    Smugly, you reflect on your work. It, like the mock, is split into two sections, <span class="code">castVoteSection</span> and <span class="code">resultsSection</span>. You, being at least somewhat familiar with Javascript, are aware that you can inject functions into your html when certain events occur. In this case, you&#39;ve left a place for three events:
+</p>
+<p>
+    <code>body onload</code>, <code>vote-button onclick</code>, and <code>vote-again-button onclick</code>.
+</p>
+<p>
+    However, when you render this, something is wrong:
+</p>
+<img src="../../res/blog/voting_app_just_html_1.png"/>
+<p>
+    Hmm. Well, this certainly <i>is</i> wrong. You don&#39;t want the <code>resultsContainer</code> content to display at the same time as the <code>castVoteSection</code> stuff. It was to be expected though. After all, all you&#39;ve done is place elements into two separate divs. You haven&#39;t told the document which one it should or shouldn&#39;t render, so it renders both.</p>
+<p>
+    To fix this, you&#39;re going to need to employ the Power of The Script.
+</p>
+<h2>Part 2: The Javascript</h2>
+<p>
+    What you really need here is some way to hide either of your section divs programmatically, and Javascript has your answers:
+</p>
+<div class="row">
+    <div class="column">
+
+        <div class="paper-sheet raised">
+<sg_codeblock language="javascript"><pre tabindex="0" class="chroma"><span class="kd">function</span> <span class="nx">showCastVoteSection</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;castVoteSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;block&#34;</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;resultsSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">showResultsSection</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;castVoteSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;none&#34;</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&#34;resultsSection&#34;</span><span class="p">).</span><span class="nx">style</span><span class="p">.</span><span class="nx">display</span> <span class="o">=</span> <span class="s2">&#34;block&#34;</span><span class="p">;</span>
+<span class="p">}</span></pre></sg_codeblock>
+</div>
+</div>
+</div>
+<p>
+    As you finish pasting this block of code verbatim out of an online article, you catch yourself wondering: <i>What does it all mean?</i>
+</p>
+<p>
+    The code above creates two functions (named chunks of code that can be called upon to run from somewhere else), that each cause two elements in the document to display or hide. In the first line of the first function, a search is performed to find an element with the id <code>castVoteSection</code>. Then, with this found element, it set&#39;s its <code>style.display</code> property to <code>block</code>, and the other section (the one we want to hide), to <code>none</code>. 
+</p>
+<p><code>style.display</code> in this case describes <i>how</i> the browser will position the element. There are several different types of <code>display</code> modes an element could have, but at this point we&#39;re only concerned with <code>block</code> (renders the element) and <code>hide</code>(doesn&#39;t render the element)</p>
+<p>
+    As you&#39;ve probably put together by now, these two functions toggle the visibility of each section by &#39;showing&#39; and &#39;hiding&#39; each section.
+</p>
+<p>
+    The only thing left to do is actually get our page to call one of these functions. Recall how you placed that <code>body onload</code> event unfilled:
+</p>
+<pre><code class="language-html">&lt;body onload=&#34;&#34;&gt;</code></pre>
+<p>
+    Putting some Javascript in those quotes will cause it to execute, as the name implies, when the body fully loads:
+</p>
+<pre><code class="language-html">&lt;body onload=&#34;showCastVoteSection()&#34;&gt;</code></pre>
+<p>
+    Refreshing the page now gets us back on the right track:
+</p>
+<img src="../../res/blog/voting_app_toggle_section.png"/>
+<p>
+    Now you start to worry about what happens when the user clicks &#34;Submit&#34;. As it is right now, nothing. 
+</p>
+<p>
+    You&#39;re well on your way with the interface part of this program, you think it&#39;s about time to start concerning yourself with the actual data, the functionality, the <i>business logic</i>.
+</p>
+<p>
+    You know that the only persistant data needed for this program is the number of votes placed for each candidate, so just a simple list of numbers. This can be done using a Javascript <code>array</code>. You put the following at the top of your <code>&lt;script&gt;</code>:
+</p>
+<pre><code class="language-javascript">var candidateVotes = [0, 0, 0, 0];</code></pre>
+<p>
+    Going through this line-by-line, you see that this single line is split into <i>two</i> portions: a <u>declaration</u>, and a <u>definition</u>:
+</p>
+<p>
+    <code>var candidateVotes</code> is <u>declaring</u> that a new variable exists, and it is named <code>candidateVotes</code>.
+</p>
+<p>
+    The next portion <code>= [0, 0, 0, 0];</code> is <u>defining</u> the new variable <code>candidateVotes</code> to be <code>[0, 0, 0, 0]</code>, which is an ordered list of four numbers. These four numbers are going to be the vote counts for each candidate. In this application, we will assume that the first value in this list will be Sanders&#39; votes, the next will be Biden&#39;s, then Warren&#39;s and finally Bloomberg&#39;s. You think to yourself
+</p>
+<p>
+    <i>&#34;This does not seem like the most effective way of organizing data. It works, but is not very readable or scalable.&#34;</i>
+</p>
+<p>
+    How insightful you are. You shake off the feeling of uneasiness, and continue.
+</p>
+<p>
+    You now need to trigger some functionality when the user clicks &#34;submit&#34;. This is done with a new function. You whip up the following:
+</p>
+<div class="row">
+    <div class="column">
+        <div class="paper-sheet raised">
+<sg_codeblock language="javascript"><pre tabindex="0" class="chroma"><span class="kd">function</span> <span class="nx">castVote</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">selectedCandidateId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;candidateSelection&#39;</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+    <span class="nx">candidateVotes</span><span class="p">[</span><span class="nx">selectedCandidateId</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="nx">showResultsSection</span><span class="p">();</span>
+<span class="p">}</span></pre></sg_codeblock>
+</div>
+</div>
+</div></body></html>
+        </article>
+    </div>
+</body>
+</html>
