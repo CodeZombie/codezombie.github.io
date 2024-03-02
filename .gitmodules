@@ -1,0 +1,3 @@
+[submodule "Statigraph"]
+	path = Statigraph
+	url = https://github.com/CodeZombie/Statigraph.git
