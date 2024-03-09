@@ -1,5 +1,6 @@
-<h2>Background</h2>
 <p>This post explains the security vulnerability I discovered and patched inside of the Stable Diffusion-based AI Image Generation tool, InvokeAI.</p>
+
+<h2>Background</h2>
 <p>InvokeAI is a python tool which runs a webserver on a user's computer which is responsible for passing commands to Stable Diffusion via PyTorch. In order to do this, a user must load a large weights file in either SafeTensors or Pickle file formats.</p>
 
 <h2>The Problem</h2>
@@ -35,6 +36,7 @@ else:
 <li>Import the file like you would normally with any other safetensors file with the Model Manager.</li>
 <li>Upon trying to select the model in the web ui, it will be loaded (or attempt to be converted to a Diffuser) with <code>torch.load</code> and the payload will execute.</li>
 </ol>
+
 <img class="paper-image" src="../../res/blog/pickle_payload_execute.png">
 
 
