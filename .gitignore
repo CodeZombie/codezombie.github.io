@@ -48,4 +48,5 @@ Temporary Items
 *.png~
 
 statigraph.exe
-./output
+output/
+Statigraph/
