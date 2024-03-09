@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>badnoise - Watch Your Ifs - An InvokeAI Security Vulnerablity Breakdown</title>
+    <link rel="icon" type="image/x-icon" href="../../res/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&family=Varela+Round&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/hella.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../../css/paper.css">
+</head>
+<body>
+    <div class="grid">
+        <nav class="row">
+            <div class="column">
+                <a href="../">badnoise/posts/</a>
+            </div>
+        </nav>
+        <article>
+            <header>
+                <h1>Watch Your Ifs - An InvokeAI Security Vulnerablity Breakdown</h1>
+                <time>Apr 23, 2023</time>
+            </header>
+            <html><head></head><body><h2>Background</h2>
+<p>This post explains the security vulnerability I discovered and patched inside of the Stable Diffusion-based AI Image Generation tool, InvokeAI.</p>
+<p>InvokeAI is a python tool which runs a webserver on a user&#39;s computer which is responsible for passing commands to Stable Diffusion via PyTorch. In order to do this, a user must load a large weights file in either SafeTensors or Pickle file formats.</p>
+
+<h2>The Problem</h2>
+<p>Pickle files (.pkl, .ckpt, etc) are extremely unsafe, as they can be trivially crafted to execute arbitrary code when parsed using <code>torch.load</code></p>
+<p>Right now the conventional wisdom among ML researchers and users is to simply <strong>not run untrusted pickle files ever</strong>, and instead only use <code>SafeTensor</code> files, which cannot (as far as anyone is concerned as of the time of writing) be injected with arbitrary code. This is very good advice.</p>
+
+<p>Unfortunately, <strong>I have discovered a vulnerability inside of InvokeAI that allows an attacker to disguise a pickle file as a safetensor and have the payload execute within InvokeAI.</strong></p>
+
+<h2>How It Works</h2>
+<p>Within <code>model_manager.py</code> and <code>convert_ckpt_to_diffusers.py</code> there are if-statements that decide which <code>load</code> method to use based on the file extension of the model file. One path loads the file as a safetensor, and the other loads the file as a pickle. The logic (written in a slightly more readable format than it exists in the codebase) is as follows:</p>
+
+<div class="row">
+    <div class="column">
+        <div class="paper-sheet raised">
+            <sg_codeblock language="javascript"><pre tabindex="0" class="chroma"><span class="k">if</span> <span class="nx">Path</span><span class="p">(</span><span class="nx">file</span><span class="p">).</span><span class="nx">suffix</span> <span class="o">==</span> <span class="s1">&#39;.safetensors&#39;</span><span class="o">:</span>
+   <span class="nx">safetensor_load</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+<span class="k">else</span><span class="o">:</span>
+   <span class="nx">unsafe_pickle_load</span><span class="p">(</span><span class="nx">file</span><span class="p">)</span>
+</pre></sg_codeblock></div></div></div>
+
+<p>Can you spot the issue?</p>
+<p>A malicious actor would only need to create an infected pickle file, and then rename the extension to something that does not pass the <code>== &#39;.safetensors&#39;</code> check, but still appears to a user to be a safetensors file so as not to raise suspicion in the user</p>
+<p>For example, this might be something like <code>.Safetensors</code>, <code>.SAFETENSORS</code>, <code>SafeTensors</code>, etc.</p>
+
+<p>InvokeAI will look at the file extension, decide it is a Pickle file and not a Safetensor, and then attempt to load it with the Model Manager and then execute the payload.</p>
+
+<h2>Proof of Concept</h2>
+<ol>
+<li>Create a malicious pickle file. <a href="https://gist.github.com/CodeZombie/27baa20710d976f45fb93928cbcfe368">Link to example</a></li>
+<li>Rename the <code>.ckpt</code> extension to some variation of <code>.Safetensors</code>, ensuring there is a capital letter anywhere in the extension (eg. <code>malicious_pickle_file.SAFETENSORS</code>)</li>
+<li>Import the file like you would normally with any other safetensors file with the Model Manager.</li>
+<li>Upon trying to select the model in the web ui, it will be loaded (or attempt to be converted to a Diffuser) with <code>torch.load</code> and the payload will execute.</li>
+</ol>
+<img class="paper-image" src="../../res/blog/pickle_payload_execute.png"/>
+
+
+<h2>The Fix</h2>
+<p>I have merged code into InvokeAI that fixes the problem described above. Now, the model loader will use the safer <code>safetensor_load</code> method by default. Instead of loading as a pickle if the extension is not exactly <code>.safetensors</code>, it will now <strong>always</strong> load as a safetensors file unless the extension is <strong>exactly</strong> <code>.ckpt</code>.</p>
+
+<h2>Notes:</h2>
+<p>I think support for pickle files should be totally dropped ASAP as a matter of security, but I understand that there are reasons this would be difficult.</p>
+<p>In the meantime, I think the <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui/blob/master/modules/safe.py"><code>RestrictedUnpickler</code> from Automatic1111</a>, or something similar, should be implemented as a replacement for <code>torch.load</code>, as this significantly reduces the amount of Python methods that an attacker has to work with when crafting malicious payloads inside a pickle file.</p></body></html>
+        </article>
+    </div>
+</body>
+</html>
